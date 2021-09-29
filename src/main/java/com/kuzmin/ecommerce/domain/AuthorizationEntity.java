@@ -1,0 +1,95 @@
+package com.kuzmin.ecommerce.domain;
+
+import javax.persistence.*;
+import java.sql.Timestamp;
+import java.util.UUID;
+
+@Entity
+@Table(name = "authorization")
+public class AuthorizationEntity {
+    @Id
+    @GeneratedValue
+    @Column(name = "ID", updatable = false, nullable = false)
+    private UUID id;
+
+    @Column(name="AUTHORIZED")
+    private boolean authorized;
+
+    @Column(name="TIME")
+    private Timestamp time;
+
+    @Column(name = "MESSAGE")
+    private String message;
+
+    @Column(name = "ERROR")
+    private String error;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "ORDER_ID", referencedColumnName = "id")
+    private OrderEntity orderEntity;
+
+    @Version
+    private long version;
+
+    public UUID getId() {
+        return id;
+    }
+
+    public AuthorizationEntity setId(UUID id) {
+        this.id = id;
+        return this;
+    }
+
+    public boolean isAuthorized() {
+        return authorized;
+    }
+
+    public AuthorizationEntity setAuthorized(boolean authorized) {
+        this.authorized = authorized;
+        return this;
+    }
+
+    public Timestamp getTime() {
+        return time;
+    }
+
+    public AuthorizationEntity setTime(Timestamp time) {
+        this.time = time;
+        return this;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public AuthorizationEntity setMessage(String message) {
+        this.message = message;
+        return this;
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public AuthorizationEntity setError(String error) {
+        this.error = error;
+        return this;
+    }
+
+    public OrderEntity getOrder() {
+        return orderEntity;
+    }
+
+    public AuthorizationEntity setOrder(OrderEntity orderEntity) {
+        this.orderEntity = orderEntity;
+        return this;
+    }
+
+    public long getVersion() {
+        return version;
+    }
+
+    public void setVersion(long version) {
+        this.version = version;
+    }
+}

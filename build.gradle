@@ -7,11 +7,11 @@ plugins {
 
 group = 'com.kuzmin'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '1.14'
+sourceCompatibility = JavaVersion.VERSION_17
 
 swaggerSources {
-    def typeMappings = 'URI=URI'
-    def importMappings = 'URI=java.net.URI'
+    def typeMappings = 'URI=URI, BigDecimal=BigDecimal, EntityModel=EntityModel'
+    def importMappings = 'URI=java.net.URI, BigDecimal=java.math.BigDecimal, EntityModel=org.springframework.hateoas.EntityModel'
     eStore {
         def apiYaml = "${rootDir}/src/main/resources/api/openapi.yaml"
         def configJson = "${rootDir}/src/main/resources/api/config.json"
@@ -23,6 +23,7 @@ swaggerSources {
             rawOptions = ['--ignore-file-override', ignoreFile, '--type-mappings',
                           typeMappings, '--import-mappings', importMappings] as List<String>
             components = [models: true, apis: true, supportingFiles: 'ApiUtil.java']
+            //templateDir = file("${rootDir}/src/main/resources/templates")
             //dependsOn validation // Should be uncommented once plugin starts supporting OA 3 validation
         }
     }
@@ -46,6 +47,11 @@ dependencies {
     implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.12.5'
     implementation 'org.springframework.boot:spring-boot-starter-hateoas:2.5.4'
     // OpenAPI Ends
+    // DB Starts
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.5.4'
+    implementation 'org.flywaydb:flyway-core:7.14.1'
+    runtimeOnly 'com.h2database:h2:1.4.200'
+    // DB Ends
     implementation 'org.springframework.boot:spring-boot-starter-web:2.5.4'
     implementation 'io.springfox:springfox-swagger2:3.0.0'
 
